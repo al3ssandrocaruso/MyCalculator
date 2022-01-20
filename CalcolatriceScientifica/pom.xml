@@ -12,6 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.8.1</junit.version>
+  	<sonar.organization>al3ssandrocaruso</sonar.organization>
+  	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencies>
