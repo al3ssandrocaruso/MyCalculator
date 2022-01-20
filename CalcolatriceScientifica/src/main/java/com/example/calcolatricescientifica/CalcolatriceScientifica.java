@@ -203,8 +203,8 @@ public class CalcolatriceScientifica extends Application {
                     //manage different operations
                     switch (operation) {
                         case "log" -> {
-                            primoTermine = primo.multiply(BigDecimalOperations.log10(secondo)) + "";
-                            displayResult(primo.multiply(BigDecimalOperations.log10(secondo)));
+                            primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
+                            displayResult(primo.multiply(Utils.logBase10(secondo)));
                         }
                         case "√" -> {
                             BigDecimal multiply = primo.multiply(secondo.sqrt(new MathContext(10)));
@@ -212,14 +212,14 @@ public class CalcolatriceScientifica extends Application {
                             displayResult(multiply);
                         }
                         case "pow" -> {
-                            primoTermine = BigDecimalOperations.pow(primo, secondo) + "";
-                            displayResult(BigDecimalOperations.pow(primo, secondo));
+                            primoTermine = Utils.pow(primo, secondo) + "";
+                            displayResult(Utils.pow(primo, secondo));
                         }
                         case "+" -> {
                             if (logPressed) {
-                                primoTermine = primo.add(BigDecimalOperations.log10(secondo)) + "";
+                                primoTermine = primo.add(Utils.logBase10(secondo)) + "";
                                 System.out.println(primoTermine);
-                                displayResult(primo.add(BigDecimalOperations.log10(secondo)));
+                                displayResult(primo.add(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
@@ -234,9 +234,9 @@ public class CalcolatriceScientifica extends Application {
                         }
                         case "-" -> {
                             if (logPressed) {
-                                primoTermine = primo.subtract(BigDecimalOperations.log10(secondo)) + "";
+                                primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
                                 System.out.println(primoTermine);
-                                displayResult(primo.subtract(BigDecimalOperations.log10(secondo)));
+                                displayResult(primo.subtract(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
@@ -251,9 +251,9 @@ public class CalcolatriceScientifica extends Application {
                         }
                         case "x" -> {
                             if (logPressed) {
-                                primoTermine = primo.multiply(BigDecimalOperations.log10(secondo)) + "";
+                                primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
                                 System.out.println(primoTermine);
-                                displayResult(primo.multiply(BigDecimalOperations.log10(secondo)));
+                                displayResult(primo.multiply(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
@@ -268,9 +268,9 @@ public class CalcolatriceScientifica extends Application {
                         }
                         case "÷" -> {
                             if (logPressed) {
-                                primoTermine = primo.divide(BigDecimalOperations.log10(secondo)) + "";
+                                primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
                                 System.out.println(primoTermine);
-                                displayResult(primo.divide(BigDecimalOperations.log10(secondo)));
+                                displayResult(primo.divide(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
@@ -458,8 +458,8 @@ public class CalcolatriceScientifica extends Application {
         BigDecimal secondo = new BigDecimal(secondoTermine);
         switch (operation) {
             case "log":
-                primoTermine=primo.multiply(BigDecimalOperations.log10(secondo))+"";
-                displayResult(primo.multiply(BigDecimalOperations.log10(secondo)));
+                primoTermine=primo.multiply(Utils.logBase10(secondo))+"";
+                displayResult(primo.multiply(Utils.logBase10(secondo)));
                 operation = who;
                 break;
             case "√":
