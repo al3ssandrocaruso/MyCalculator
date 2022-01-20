@@ -218,13 +218,11 @@ public class CalcolatriceScientifica extends Application {
                         case "+" -> {
                             if (logPressed) {
                                 primoTermine = primo.add(Utils.logBase10(secondo)) + "";
-                                System.out.println(primoTermine);
                                 displayResult(primo.add(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
                                 primoTermine = primo.add(secondo.sqrt(new MathContext(10))) + "";
-                                System.out.println(primoTermine);
                                 displayResult(secondo.sqrt(new MathContext(10)));
                                 radixPressed = false;
                                 break;
@@ -235,13 +233,11 @@ public class CalcolatriceScientifica extends Application {
                         case "-" -> {
                             if (logPressed) {
                                 primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
-                                System.out.println(primoTermine);
                                 displayResult(primo.subtract(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
                                 primoTermine = primo.subtract(secondo.sqrt(new MathContext(10))) + "";
-                                System.out.println(primoTermine);
                                 displayResult(secondo.sqrt(new MathContext(10)));
                                 radixPressed = false;
                                 break;
@@ -252,13 +248,11 @@ public class CalcolatriceScientifica extends Application {
                         case "x" -> {
                             if (logPressed) {
                                 primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
-                                System.out.println(primoTermine);
                                 displayResult(primo.multiply(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
                                 primoTermine = primo.multiply(secondo.sqrt(new MathContext(10))) + "";
-                                System.out.println(primoTermine);
                                 displayResult(secondo.sqrt(new MathContext(10)));
                                 radixPressed = false;
                                 break;
@@ -269,13 +263,11 @@ public class CalcolatriceScientifica extends Application {
                         case "÷" -> {
                             if (logPressed) {
                                 primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
-                                System.out.println(primoTermine);
                                 displayResult(primo.divide(Utils.logBase10(secondo)));
                                 logPressed = false;
                                 break;
                             } else if (radixPressed) {
                                 primoTermine = primo.divide(secondo.sqrt(new MathContext(10))) + "";
-                                System.out.println(primoTermine);
                                 displayResult(secondo.sqrt(new MathContext(10)));
                                 radixPressed = false;
                                 break;
@@ -307,10 +299,8 @@ public class CalcolatriceScientifica extends Application {
                     if (!primoTermine.contains(".")) {
                         primoTermine = primoTermine + ".";
                     }
-                } else if (secondoTermine.length() >= 1) {
-                    if (!secondoTermine.contains(".")) {
+                } else if (secondoTermine.length() >= 1 && !secondoTermine.contains(".")) {
                         secondoTermine = secondoTermine + ".";
-                    }
                 }
                 display();
             }
@@ -357,12 +347,10 @@ public class CalcolatriceScientifica extends Application {
                     backFromResult = false;
                 }else if(logPressed){
                     secondoTermine=secondoTermine.concat(pressed);
-                    System.out.println(secondoTermine);
                     displayLog();
                     break;
                 }else if(radixPressed){
                 secondoTermine=secondoTermine.concat(pressed);
-                System.out.println(secondoTermine);
                 displaySqrt();
                 break;
                 }
@@ -492,6 +480,7 @@ public class CalcolatriceScientifica extends Application {
                     operation = who;
                 }
                 break;
+            default:
         }
         secondoTermine = "";
     }
