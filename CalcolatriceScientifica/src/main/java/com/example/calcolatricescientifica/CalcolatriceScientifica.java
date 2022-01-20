@@ -279,6 +279,8 @@ public class CalcolatriceScientifica extends Application {
                                 displayResult(primo.divide(secondo));
                             }
                         }
+                        default -> {
+                        }
                     }
                 }
                 backFromResult = true;
@@ -486,6 +488,7 @@ public class CalcolatriceScientifica extends Application {
     }
 
     private void setScene(){
+        String myColor="-fx-background-color: #e0aaff";
         root=new BorderPane();
         root.setMinSize(300,400);
 
@@ -522,10 +525,10 @@ public class CalcolatriceScientifica extends Application {
         Button btnSquare=setNewButton("√");
         Button btnPi=setNewButton("π");
         Button btnPow=setNewButton("pow");
-        btnLog.setStyle("-fx-background-color: #e0aaff");
-        btnSquare.setStyle("-fx-background-color: #e0aaff");
-        btnPi.setStyle("-fx-background-color: #e0aaff");
-        btnPow.setStyle("-fx-background-color: #e0aaff");
+        btnLog.setStyle(myColor);
+        btnSquare.setStyle(myColor);
+        btnPi.setStyle(myColor);
+        btnPow.setStyle(myColor);
 
         riga0.getChildren().addAll(btnLog,btnSquare,btnPi,btnPow);
 

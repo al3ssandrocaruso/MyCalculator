@@ -3,6 +3,9 @@ package com.example.calcolatricescientifica;
 import java.math.BigDecimal;
 
 public class Utils {
+    private Utils() {
+    }
+
     public static BigDecimal logBase10(BigDecimal op){
         Double opDouble=Double.valueOf(op+"");
         opDouble=Math.log10(opDouble);
