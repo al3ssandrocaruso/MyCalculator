@@ -50,8 +50,7 @@ public class CalcolatriceScientifica extends Application {
         stage.show();
         displayZero();
     }
-
-    private void handler(String pressed) throws InterruptedException {
+    private void handler(String pressed) {
 
         //manage pressed buttons
         switch (pressed) {
@@ -202,20 +201,17 @@ public class CalcolatriceScientifica extends Application {
 
                     //manage different operations
                     switch (operation) {
-                        case "log" -> {
+                        case "log":
                             primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
                             displayResult(primo.multiply(Utils.logBase10(secondo)));
-                        }
-                        case "√" -> {
+                        case "√":
                             BigDecimal multiply = primo.multiply(secondo.sqrt(new MathContext(10)));
                             primoTermine = multiply + "";
                             displayResult(multiply);
-                        }
-                        case "pow" -> {
+                        case "pow":
                             primoTermine = Utils.pow(primo, secondo) + "";
                             displayResult(Utils.pow(primo, secondo));
-                        }
-                        case "+" -> {
+                        case "+":
                             if (logPressed) {
                                 primoTermine = primo.add(Utils.logBase10(secondo)) + "";
                                 displayResult(primo.add(Utils.logBase10(secondo)));
@@ -229,8 +225,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.add(secondo) + "";
                             displayResult(primo.add(secondo));
-                        }
-                        case "-" -> {
+                        case "-":
                             if (logPressed) {
                                 primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
                                 displayResult(primo.subtract(Utils.logBase10(secondo)));
@@ -244,8 +239,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.subtract(secondo) + "";
                             displayResult(primo.subtract(secondo));
-                        }
-                        case "x" -> {
+                        case "x":
                             if (logPressed) {
                                 primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
                                 displayResult(primo.multiply(Utils.logBase10(secondo)));
@@ -259,8 +253,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.multiply(secondo) + "";
                             displayResult(primo.multiply(secondo));
-                        }
-                        case "÷" -> {
+                        case "÷":
                             if (logPressed) {
                                 primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
                                 displayResult(primo.divide(Utils.logBase10(secondo)));
@@ -278,9 +271,7 @@ public class CalcolatriceScientifica extends Application {
                                 primoTermine = primo.divide(secondo) + "";
                                 displayResult(primo.divide(secondo));
                             }
-                        }
-                        default -> {
-                        }
+                        default:
                     }
                 }
                 backFromResult = true;
@@ -434,11 +425,7 @@ public class CalcolatriceScientifica extends Application {
         btn.setMinSize(50,50);
         btn.setStyle("-fx-font-weight: bold;");
         btn.setOnAction(e -> {
-            try {
-                handler(text);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+            handler(text);
         });
         return btn;
     }
