@@ -204,13 +204,16 @@ public class CalcolatriceScientifica extends Application {
                         case "log":
                             primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
                             displayResult(primo.multiply(Utils.logBase10(secondo)));
+                            break;
                         case "√":
                             BigDecimal multiply = primo.multiply(secondo.sqrt(new MathContext(10)));
                             primoTermine = multiply + "";
                             displayResult(multiply);
+                            break;
                         case "pow":
                             primoTermine = Utils.pow(primo, secondo) + "";
                             displayResult(Utils.pow(primo, secondo));
+                            break;
                         case "+":
                             if (logPressed) {
                                 primoTermine = primo.add(Utils.logBase10(secondo)) + "";
@@ -225,6 +228,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.add(secondo) + "";
                             displayResult(primo.add(secondo));
+                            break;
                         case "-":
                             if (logPressed) {
                                 primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
@@ -239,6 +243,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.subtract(secondo) + "";
                             displayResult(primo.subtract(secondo));
+                            break;
                         case "x":
                             if (logPressed) {
                                 primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
@@ -253,6 +258,7 @@ public class CalcolatriceScientifica extends Application {
                             }
                             primoTermine = primo.multiply(secondo) + "";
                             displayResult(primo.multiply(secondo));
+                            break;
                         case "÷":
                             if (logPressed) {
                                 primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
@@ -271,6 +277,7 @@ public class CalcolatriceScientifica extends Application {
                                 primoTermine = primo.divide(secondo) + "";
                                 displayResult(primo.divide(secondo));
                             }
+                            break;
                         default:
                     }
                 }
