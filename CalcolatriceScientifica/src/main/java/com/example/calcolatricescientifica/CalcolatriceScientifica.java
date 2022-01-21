@@ -88,6 +88,68 @@ public class CalcolatriceScientifica extends Application {
         else {displayZero();}
     }
 
+    public void manageLogPressed(BigDecimal primo, BigDecimal secondo){
+        switch (operation) {
+            case "log":
+                break;
+            case "√":
+                break;
+            case "pow":
+                break;
+            case "+":
+                primoTermine = primo.add(Utils.logBase10(secondo)) + "";
+                displayResult(primo.add(Utils.logBase10(secondo)));
+                logPressed = false;
+                break;
+            case "-":
+                primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
+                displayResult(primo.subtract(Utils.logBase10(secondo)));
+                logPressed = false;
+                break;
+            case "x":
+                primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
+                displayResult(primo.multiply(Utils.logBase10(secondo)));
+                logPressed = false;
+                break;
+            case "÷":
+                primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
+                displayResult(primo.divide(Utils.logBase10(secondo)));
+                logPressed = false;
+                break;
+            default:
+        }
+    }
+    public void manageRadixPressed(BigDecimal primo, BigDecimal secondo){
+        switch (operation) {
+            case "log":
+                break;
+            case "√":
+                break;
+            case "pow":
+                break;
+            case "+":
+                primoTermine = primo.add(secondo.sqrt(new MathContext(10))) + "";
+                displayResult(secondo.sqrt(new MathContext(10)));
+                radixPressed = false;
+                break;
+            case "-":
+                primoTermine = primo.subtract(secondo.sqrt(new MathContext(10))) + "";
+                displayResult(secondo.sqrt(new MathContext(10)));
+                radixPressed = false;
+                break;
+            case "x":
+                primoTermine = primo.multiply(secondo.sqrt(new MathContext(10))) + "";
+                displayResult(secondo.sqrt(new MathContext(10)));
+                radixPressed = false;
+                break;
+            case "÷":
+                primoTermine = primo.divide(secondo.sqrt(new MathContext(10))) + "";
+                displayResult(secondo.sqrt(new MathContext(10)));
+                radixPressed = false;
+                break;
+            default:
+        }
+    }
     public void subHandler6(){
         if (secondoTermine.equals("")) {
             displayResult(new BigDecimal(primoTermine));
@@ -96,67 +158,9 @@ public class CalcolatriceScientifica extends Application {
             BigDecimal secondo = new BigDecimal(secondoTermine);
 
             if (logPressed) {
-                switch (operation) {
-                    case "log":
-                        break;
-                    case "√":
-                        break;
-                    case "pow":
-                        break;
-                    case "+":
-                        primoTermine = primo.add(Utils.logBase10(secondo)) + "";
-                        displayResult(primo.add(Utils.logBase10(secondo)));
-                        logPressed = false;
-                        break;
-                    case "-":
-                        primoTermine = primo.subtract(Utils.logBase10(secondo)) + "";
-                        displayResult(primo.subtract(Utils.logBase10(secondo)));
-                        logPressed = false;
-                        break;
-                    case "x":
-                        primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
-                        displayResult(primo.multiply(Utils.logBase10(secondo)));
-                        logPressed = false;
-                        break;
-                    case "÷":
-                        primoTermine = primo.divide(Utils.logBase10(secondo)) + "";
-                        displayResult(primo.divide(Utils.logBase10(secondo)));
-                        logPressed = false;
-                        break;
-                    default:
-                        ;
-                }
+                manageLogPressed(primo,secondo);
             } else if (radixPressed) {
-                switch (operation) {
-                    case "log":
-                        break;
-                    case "√":
-                        break;
-                    case "pow":
-                        break;
-                    case "+":
-                        primoTermine = primo.add(secondo.sqrt(new MathContext(10))) + "";
-                        displayResult(secondo.sqrt(new MathContext(10)));
-                        radixPressed = false;
-                        break;
-                    case "-":
-                        primoTermine = primo.subtract(secondo.sqrt(new MathContext(10))) + "";
-                        displayResult(secondo.sqrt(new MathContext(10)));
-                        radixPressed = false;
-                        break;
-                    case "x":
-                        primoTermine = primo.multiply(secondo.sqrt(new MathContext(10))) + "";
-                        displayResult(secondo.sqrt(new MathContext(10)));
-                        radixPressed = false;
-                        break;
-                    case "÷":
-                        primoTermine = primo.divide(secondo.sqrt(new MathContext(10))) + "";
-                        displayResult(secondo.sqrt(new MathContext(10)));
-                        radixPressed = false;
-                        break;
-                    default:
-                        ;
-                }
+                manageRadixPressed(primo,secondo);
             } else {
                 //manage different operations
                 switch (operation) {
