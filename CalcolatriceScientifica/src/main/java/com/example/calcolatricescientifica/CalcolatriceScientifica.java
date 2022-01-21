@@ -50,6 +50,66 @@ public class CalcolatriceScientifica extends Application {
         stage.show();
         displayZero();
     }
+    private boolean subHandler1(String pressed){
+        boolean breakOrNot=false;
+        if (primoTermine.equals("") && secondoTermine.equals("") && operation.equals("") ) {
+            primoTermine = "1";
+            operation = pressed;
+        } else if (operation.equals("") && secondoTermine.equals("")) {
+            operation = pressed;
+        } else if (secondoTermine.equals("")) {
+            if (pressed.equals("log")) {
+                logPressed = true;
+                displayLog();
+            } else {
+                radixPressed = true;
+                displaySqrt();
+            }
+            breakOrNot=true;
+        }
+        return breakOrNot;
+    }
+    public void subHandler2(){
+        if (primoTermine.equals("")) {
+            secondoTermine = "";
+            operation = "";
+        } else if ((operation.equals("x") || operation.equals("÷")) ) {
+            operation = "+";
+        } else if (!operation.equals("") ) {
+            secondoTermine = "+" + secondoTermine;
+            reformat();
+        } else {
+            operation = "+";
+        }
+    }
+    public void subHandler3(String pressed){
+        if (primoTermine.equals("")) {
+            secondoTermine = "";
+            operation = "";
+            if(pressed.equals("-")){primoTermine = "-";}
+        } else if (operation.equals("x") || operation.equals("÷")) {
+            operation = pressed;
+        } else if (!operation.equals("")) {
+            secondoTermine = pressed + secondoTermine;
+            reformat();
+        } else {
+            operation = pressed;
+        }
+    }
+    public void subHandler4(){
+        if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
+            operation = "x";
+        } else {
+            displayZero();
+        }
+    }
+    public void subHandler5(){
+        if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
+            operation = "÷";
+        } else {
+            displayZero();
+        }
+    }
     private void handler(String pressed) {
 
         //manage pressed buttons
@@ -63,63 +123,20 @@ public class CalcolatriceScientifica extends Application {
                     helper(pressed);
                 }
                 else if(pressed.equals("√") || pressed.equals("log")) {
-
-                    if (primoTermine.equals("") && secondoTermine.equals("") && operation.equals("") ) {
-                        primoTermine = "1";
-                        operation = pressed;
-                    } else if (operation.equals("") && secondoTermine.equals("")) {
-                        operation = pressed;
-                    } else if (secondoTermine.equals("")) {
-                        if (pressed.equals("log")) {
-                            logPressed = true;
-                            displayLog();
-                        } else {
-                            radixPressed = true;
-                            displaySqrt();
-                        }
-                        break;
-                    }
+                    if(subHandler1(pressed)){break;}
                 }
                 else if(pressed.equals("+")) {
-                     if (primoTermine.equals("")) {
-                        secondoTermine = "";
-                        operation = "";
-                    } else if ((operation.equals("x") || operation.equals("÷")) ) {
-                        operation = "+";
-                    } else if (!operation.equals("") ) {
-                        secondoTermine = "+" + secondoTermine;
-                        reformat();
-                    } else {
-                        operation = "+";
-                    }
+                    subHandler2();
+
                 }
                 else if(pressed.equals("pow") || pressed.equals("-")){
-                    if (primoTermine.equals("")) {
-                        secondoTermine = "";
-                        operation = "";
-                        if(pressed.equals("-")){primoTermine = "-";}
-                    } else if (operation.equals("x") || operation.equals("÷")) {
-                        operation = pressed;
-                    } else if (!operation.equals("")) {
-                        secondoTermine = pressed + secondoTermine;
-                        reformat();
-                    } else {
-                        operation = pressed;
-                    }
+                   subHandler3(pressed);
                 }
                 else if (pressed.equals("x")){
-                    if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
-                        operation = "x";
-                    } else {
-                        displayZero();
-                    }
+                   subHandler4();
                 }
                 else { //caso .equals("÷")
-                    if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
-                        operation = "÷";
-                    } else {
-                        displayZero();
-                    }
+                    subHandler5();
                 }
                 display();
             }
