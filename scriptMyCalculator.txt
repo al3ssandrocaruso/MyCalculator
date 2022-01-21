@@ -1,0 +1,5 @@
+MyCalculator SONARCLOUD:
+1)Script
+mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=al3ssandrocaruso_MyCalculator
+2)SONAR_TOKEN
+06289033effbcc5721ab8a503c32ffb766dfbe2f
