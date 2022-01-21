@@ -55,137 +55,84 @@ public class CalcolatriceScientifica extends Application {
         //manage pressed buttons
         switch (pressed) {
             // case
-            case "√" -> {
+            case "√","log","+","pow","-","x","÷" -> {
                 if (backFromResult) {
                     backFromResult = false;
                 }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("√");
-                }else if(primoTermine.equals("") && secondoTermine.equals("") && operation.equals("")){
-                    primoTermine="1";
-                    operation="√";
-                }else if(operation.equals("") && secondoTermine.equals("")){
-                    operation="√";
-                }else if(secondoTermine.equals("")){
-                    radixPressed=true;
-                    displaySqrt();
-                    break;
+                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("") ) {
+                    helper(pressed);
                 }
-                display();
-            }
+                else if(pressed.equals("√") || pressed.equals("log")) {
 
-
-
-            //case log
-            case "log" -> {
-                if (backFromResult) {
-                    backFromResult = false;
+                    if (primoTermine.equals("") && secondoTermine.equals("") && operation.equals("") ) {
+                        primoTermine = "1";
+                        operation = pressed;
+                    } else if (operation.equals("") && secondoTermine.equals("")) {
+                        operation = pressed;
+                    } else if (secondoTermine.equals("")) {
+                        if (pressed.equals("log")) {
+                            logPressed = true;
+                            displayLog();
+                        } else {
+                            radixPressed = true;
+                            displaySqrt();
+                        }
+                        break;
+                    }
                 }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("log");
-                }else if(primoTermine.equals("") && secondoTermine.equals("") && operation.equals("")){
-                    primoTermine="1";
-                    operation="log";
-                }else if(operation.equals("") && secondoTermine.equals("")){
-                    operation="log";
-                }else if(secondoTermine.equals("")){
-                    logPressed=true;
-                    displayLog();
-                    break;
+                else if(pressed.equals("+")) {
+                     if (primoTermine.equals("")) {
+                        secondoTermine = "";
+                        operation = "";
+                    } else if ((operation.equals("x") || operation.equals("÷")) ) {
+                        operation = "+";
+                    } else if (!operation.equals("") ) {
+                        secondoTermine = "+" + secondoTermine;
+                        reformat();
+                    } else {
+                        operation = "+";
+                    }
                 }
-                display();
-            }
-
-            //case +
-            case "+" -> {
-                if (backFromResult) {
-                    backFromResult = false;
+                else if(pressed.equals("pow")){
+                    if (primoTermine.equals("")) {
+                        secondoTermine = "";
+                        operation = "";
+                    } else if (operation.equals("x") || operation.equals("÷")) {
+                        operation = "pow";
+                    } else if (!operation.equals("")) {
+                        secondoTermine = "pow" + secondoTermine;
+                        reformat();
+                    } else {
+                        operation = "pow";
+                    }
                 }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("+");
-                } else if (primoTermine.equals("")) {
-                    secondoTermine = "";
-                    operation = "";
-                } else if (operation.equals("x") || operation.equals("÷")) {
-                    operation = "+";
-                } else if (!operation.equals("")) {
-                    secondoTermine = "+" + secondoTermine;
-                    reformat();
-                } else {
-                    operation = "+";
+                else if (pressed.equals("-")){
+                    if (primoTermine.equals("")) {
+                        primoTermine = "-";
+                        secondoTermine = "";
+                        operation = "";
+                    } else if (operation.equals("x") || operation.equals("÷")) {
+                        operation = "-";
+                    } else if (!operation.equals("")) {
+                        secondoTermine = "-" + secondoTermine;
+                        reformat();
+                    } else {
+                        operation = "-";
+                    }
                 }
-                display();
-            }
-
-            //case pow
-            case "pow" -> {
-                if (backFromResult) {
-                    backFromResult = false;
+                else if (pressed.equals("x")){
+                    if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
+                        operation = "x";
+                    } else {
+                        displayZero();
+                    }
                 }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("pow");
-                } else if (primoTermine.equals("")) {
-                    secondoTermine = "";
-                    operation = "";
-                } else if (operation.equals("x") || operation.equals("÷")) {
-                    operation = "pow";
-                } else if (!operation.equals("")) {
-                    secondoTermine = "pow" + secondoTermine;
-                    reformat();
-                } else {
-                    operation = "pow";
-                }
-                display();
-            }
-
-            //case -
-            case "-" -> {
-                if (backFromResult) {
-                    backFromResult = false;
-                }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("-");
-                } else if (primoTermine.equals("")) {
-                    primoTermine = "-";
-                    secondoTermine = "";
-                    operation = "";
-                } else if (operation.equals("x") || operation.equals("÷")) {
-                    operation = "-";
-                } else if (!operation.equals("")) {
-                    secondoTermine = "-" + secondoTermine;
-                    reformat();
-                } else {
-                    operation = "-";
-                }
-                display();
-            }
-
-            //case x
-            case "x" -> {
-                if (backFromResult) {
-                    backFromResult = false;
-                }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("x");
-                } else if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
-                    operation = "x";
-                } else {
-                    displayZero();
-                }
-                display();
-            }
-
-            //case ÷
-            case "÷" -> {
-                if (backFromResult) {
-                    backFromResult = false;
-                }
-                if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("")) {
-                    helper("÷");
-                } else if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
-                    operation = "÷";
-                } else {
-                    displayZero();
+                else { //caso .equals("÷")
+                    if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {
+                        operation = "÷";
+                    } else {
+                        displayZero();
+                    }
                 }
                 display();
             }
