@@ -51,44 +51,59 @@ public class CalcolatriceScientifica extends Application {
         displayZero();
     }
 
-    private boolean subHandler1(String pressed){
-        boolean breakOrNot=false;
-        if (primoTermine.equals("") && secondoTermine.equals("") && operation.equals("") ) {
-            primoTermine = "1";
-            operation = pressed;
-        } else if (operation.equals("") && secondoTermine.equals("")) {
-            operation = pressed;
-        } else if (secondoTermine.equals("")) {
-            if (pressed.equals("log")) {logPressed = true; displayLog();}
-            else { radixPressed = true; displaySqrt();}
-            breakOrNot=true;
+    private void handler(String pressed) {  //our main
+
+        //manage pressed buttons
+        switch (pressed) {
+            case "√","log","+","pow","-","x","÷": handleOperations(pressed); break;
+
+            case "=" : handleEqual();backFromResult = true;operation = "";secondoTermine = ""; break;
+
+            case "C" : displayZero();logPressed=false;radixPressed=false; break;
+
+            case "." : handleDot(); break;
+
+            case "⌫": handleDel(); break;
+
+            case "±" : handlePlusMinus(); break;
+
+            default : handleDigits(pressed);
         }
-        return breakOrNot;
+
     }
 
-    public void subHandler2(){
-        if (primoTermine.equals("")) { secondoTermine = ""; operation = "";
-        } else if ((operation.equals("x") || operation.equals("÷")) ) { operation = "+";}
-        else if (!operation.equals("") ) { secondoTermine = "+" + secondoTermine; reformat();}
+    private void handleRadixOrPow(String pressed){
+        if (primoTermine.equals("") && secondoTermine.equals("") && operation.equals("") ) { primoTermine = "1"; operation = pressed;}
+        else if (operation.equals("") && secondoTermine.equals("")) { operation = pressed; display();}
+        else if (secondoTermine.equals("")) {
+            if (pressed.equals("log")) { logPressed = true; displayLog();}
+            else { radixPressed = true; displaySqrt(); }
+        }
+    }
+
+    public void handleSum(){
+        if (primoTermine.equals("")) { secondoTermine = ""; operation = "";}
         else {  operation = "+"; }
     }
 
-    public void subHandler3(String pressed){
+    public void handlePowAndSub(String pressed){
         if (primoTermine.equals("")) { secondoTermine = ""; operation = "";  if(pressed.equals("-")){primoTermine = "-";}
         } else if (operation.equals("x") || operation.equals("÷")) { operation = pressed;}
         else if (!operation.equals("")) { secondoTermine = pressed + secondoTermine; reformat();}
         else { operation = pressed; }
     }
-    public void subHandler4(){
+
+    public void handleMult(){
         if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) { operation = "x";}
         else {displayZero();}
     }
-    public void subHandler5(){
+
+    public void handleDiv(){
         if ((!primoTermine.equals("") && secondoTermine.equals("")) || !operation.equals("")) {operation = "÷";}
         else {displayZero();}
     }
 
-    public void manageLogPressed(BigDecimal primo, BigDecimal secondo){
+    public void handleLogPressed(BigDecimal primo, BigDecimal secondo){
         switch (operation) {
             case "log":
                 break;
@@ -119,7 +134,8 @@ public class CalcolatriceScientifica extends Application {
             default:
         }
     }
-    public void manageRadixPressed(BigDecimal primo, BigDecimal secondo){
+    public void handleRadixPressed(BigDecimal primo, BigDecimal secondo){
+        BigDecimal res;
         switch (operation) {
             case "log":
                 break;
@@ -128,41 +144,45 @@ public class CalcolatriceScientifica extends Application {
             case "pow":
                 break;
             case "+":
-                primoTermine = primo.add(secondo.sqrt(new MathContext(10))) + "";
-                displayResult(secondo.sqrt(new MathContext(10)));
+                res = primo.add(secondo.sqrt(new MathContext(10)));
+                primoTermine =res + "";
+                displayResult(res);
                 radixPressed = false;
                 break;
             case "-":
-                primoTermine = primo.subtract(secondo.sqrt(new MathContext(10))) + "";
-                displayResult(secondo.sqrt(new MathContext(10)));
+                res = primo.subtract(secondo.sqrt(new MathContext(10)));
+                primoTermine = res + "";
+                displayResult(res);
                 radixPressed = false;
                 break;
             case "x":
-                primoTermine = primo.multiply(secondo.sqrt(new MathContext(10))) + "";
-                displayResult(secondo.sqrt(new MathContext(10)));
+                res = primo.multiply(secondo.sqrt(new MathContext(10)));
+                primoTermine = res + "";
+                displayResult(res);
                 radixPressed = false;
                 break;
             case "÷":
-                primoTermine = primo.divide(secondo.sqrt(new MathContext(10))) + "";
-                displayResult(secondo.sqrt(new MathContext(10)));
+                res = primo.divide(secondo.sqrt(new MathContext(10)));
+                primoTermine = res + "";
+                displayResult(res);
                 radixPressed = false;
                 break;
             default:
         }
     }
-    public void subHandler6(){
-        if (secondoTermine.equals("")) {
-            displayResult(new BigDecimal(primoTermine));
-        } else {
+
+    public void handleEqual(){ //when equal is pressed
+        if (secondoTermine.equals("")) { displayResult(new BigDecimal(primoTermine));}
+        else{
             BigDecimal primo = new BigDecimal(primoTermine);
             BigDecimal secondo = new BigDecimal(secondoTermine);
 
-            if (logPressed) {
-                manageLogPressed(primo,secondo);
-            } else if (radixPressed) {
-                manageRadixPressed(primo,secondo);
-            } else {
-                //manage different operations
+            //casi particolari in cui è stato usato logaritmo o radice insieme ad altre operzioni
+            if (logPressed) { handleLogPressed(primo,secondo); }
+            else if (radixPressed) { handleRadixPressed(primo,secondo);}
+            else {
+                //manage different operations pressed before
+                //these are the results of the operations
                 switch (operation) {
                     case "log":
                         primoTermine = primo.multiply(Utils.logBase10(secondo)) + "";
@@ -190,130 +210,60 @@ public class CalcolatriceScientifica extends Application {
                         displayResult(primo.multiply(secondo));
                         break;
                     case "÷":
-                        if (secondo.equals(new BigDecimal("0"))) {
-                            displayInfinity();
-                        } else {
-                            primoTermine = primo.divide(secondo) + "";
-                            displayResult(primo.divide(secondo));
-                        }
+                        if (secondo.equals(new BigDecimal("0"))) { displayInfinity();}
+                        else {primoTermine = primo.divide(secondo) + ""; displayResult(primo.divide(secondo)); }
                         break;
                     default:
                 }
             }
         }
     }
-    public void subHandler7(){
+    public void handleDot(){
         if (primoTermine.length() >= 1 && operation.equals("")) {
-            if (!primoTermine.contains(".")) {
-                primoTermine = primoTermine + ".";
-            }
-        } else if (secondoTermine.length() >= 1 && !secondoTermine.contains(".")) {
-            secondoTermine = secondoTermine + ".";
+            if (!primoTermine.contains(".")) { primoTermine = primoTermine + "."; }
         }
+        else if (secondoTermine.length() >= 1 && !secondoTermine.contains(".")) { secondoTermine = secondoTermine + "."; }
         display();
     }
 
-    public void subHandler8(){
-        if (secondoTermine.length() >= 1) {
-            secondoTermine = secondoTermine.substring(0, secondoTermine.length() - 1);
-        } else if (!operation.equals("")) {
-            operation = "";
-        } else if (primoTermine.length() >= 1) {
-            primoTermine = primoTermine.substring(0, primoTermine.length() - 1);
-        } else {
-            displayZero();
-        }
+    public void handleDel(){
+        if (secondoTermine.length() >= 1) { secondoTermine = secondoTermine.substring(0, secondoTermine.length() - 1);}
+        else if (!operation.equals("")) { operation = "";}
+        else if (primoTermine.length() >= 1) { primoTermine = primoTermine.substring(0, primoTermine.length() - 1);}
+        else {  displayZero(); }
         display();
     }
-    public void subHandler9(){
+    public void handlePlusMinus(){
         String segno = "-";
         if (primoTermine.equals("") || operation.equals("")) {
             primoTermine = segno.concat(primoTermine);
             if (primoTermine.startsWith("--")) primoTermine = primoTermine.substring(2);
-            else if (primoTermine.startsWith("+-") || primoTermine.startsWith("--")) {
-                primoTermine = "-".concat(primoTermine.substring(2));
-            }
-        } else {
-            secondoTermine = segno.concat(secondoTermine);
-            reformat();
+            else if (primoTermine.startsWith("+-") || primoTermine.startsWith("--")) { primoTermine = "-".concat(primoTermine.substring(2));}
         }
+        else { secondoTermine = segno.concat(secondoTermine); reformat();}
         display();
     }
-    public void subHandler10(String pressed){
-        if(pressed.equals("π")){
-            pressed= String.valueOf(Math.PI);
-        }
-        if (backFromResult) {
-            primoTermine = pressed;
-            operation = "";
-            secondoTermine = "";
-        }else if(logPressed){
-            secondoTermine=secondoTermine.concat(pressed);
-            displayLog();
-        }else if(radixPressed){
-            secondoTermine=secondoTermine.concat(pressed);
-            displaySqrt();
-        }
-        else if (primoTermine.equals("") || operation.equals("")) {
-            primoTermine = primoTermine.concat(pressed);
-        } else {
-            secondoTermine = secondoTermine.concat(pressed);
-        }
+    public void handleDigits(String pressed){
+        if(pressed.equals("π")){ pressed= String.valueOf(Math.PI);}
+        if (backFromResult) { primoTermine = pressed; operation = ""; secondoTermine = "";}
+        else if(logPressed){ secondoTermine=secondoTermine.concat(pressed); displayLog();}
+        else if(radixPressed){ secondoTermine=secondoTermine.concat(pressed); displaySqrt(); return;}
+        else if (primoTermine.equals("") || operation.equals("")) { primoTermine = primoTermine.concat(pressed);}
+        else { secondoTermine = secondoTermine.concat(pressed);}
         display();
     }
-    public boolean subHandler0(String pressed){
-        boolean breakOrNot=false;
-        if (backFromResult) {
-            backFromResult = false;
-        }
-        if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("") ) {
-            helper(pressed);
-        }
-        else if(pressed.equals("√") || pressed.equals("log")) {
-            if(subHandler1(pressed)){ breakOrNot=true; }
-        }
-        else if(pressed.equals("+")) {
-            subHandler2();
+    public void handleOperations(String operation){
 
-        }
-        else if(pressed.equals("pow") || pressed.equals("-")){
-            subHandler3(pressed);
-        }
-        else if (pressed.equals("x")){
-            subHandler4();
-        }
-        else { //caso .equals("÷")
-            subHandler5();
-        }
+        if (backFromResult) { backFromResult = false; }
+
+        if (!primoTermine.equals("") && !secondoTermine.equals("") && !operation.equals("") ) { noEqualPressed(operation);}
+        else if(operation.equals("√") || operation.equals("log")) { handleRadixOrPow(operation); return;}
+        else if(operation.equals("+")) { handleSum(); }
+        else if(operation.equals("pow") || operation.equals("-")){ handlePowAndSub(operation);}
+        else if (operation.equals("x")){ handleMult(); }
+        else if(operation.equals("÷")){ handleDiv(); }
+
         display();
-        return breakOrNot;
-    }
-    private void handler(String pressed) {
-
-        //manage pressed buttons
-        switch (pressed) {
-            // case
-            case "√","log","+","pow","-","x","÷": subHandler0(pressed); break;
-
-            // case =
-            case "=" :subHandler6();backFromResult = true;operation = "";secondoTermine = ""; break;
-
-            //case C
-            case "C" : displayZero();logPressed=false;radixPressed=false; break;
-
-            //case .
-            case "." : subHandler7(); break;
-
-            //case ⌫
-            case "⌫":subHandler8(); break;
-
-            //case ±
-            case "±" :subHandler9(); break;
-
-            //default
-            default :subHandler10(pressed);
-        }
-
     }
 
     private void displayLog() {
@@ -386,7 +336,7 @@ public class CalcolatriceScientifica extends Application {
         return btn;
     }
 
-    public void helper(String who){ //se non viene schiacciato uguale ma un altra operazione
+    public void noEqualPressed(String who){     //se non viene schiacciato uguale ma un altra operazione
         BigDecimal primo = new BigDecimal(primoTermine);
         BigDecimal secondo = new BigDecimal(secondoTermine);
         switch (operation) {
