@@ -291,44 +291,25 @@ public class CalcolatriceScientifica extends Application {
         //manage pressed buttons
         switch (pressed) {
             // case
-            case "√","log","+","pow","-","x","÷" -> {
-                subHandler0(pressed);
-            }
+            case "√","log","+","pow","-","x","÷": subHandler0(pressed);
 
             // case =
-            case "=" -> {
-                subHandler6();
-                backFromResult = true;
-                operation = "";
-                secondoTermine = "";
-            }
+            case "=" :subHandler6();backFromResult = true;operation = "";secondoTermine = "";
 
             //case C
-            case "C" -> {
-                displayZero();
-                logPressed=false;
-                radixPressed=false;
-            }
+            case "C" : displayZero();logPressed=false;radixPressed=false;
 
             //case .
-            case "." -> {
-                subHandler7();
-            }
+            case "." : subHandler7();
 
             //case ⌫
-            case "⌫" -> {
-               subHandler8();
-            }
+            case "⌫":subHandler8();
 
             //case ±
-            case "±" -> {
-                subHandler9();
-            }
+            case "±" :subHandler9();
 
             //default
-            default -> {
-                subHandler10(pressed);
-            }
+            default :subHandler10(pressed);
         }
 
     }
