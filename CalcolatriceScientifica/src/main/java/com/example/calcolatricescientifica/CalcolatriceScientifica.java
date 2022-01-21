@@ -93,31 +93,18 @@ public class CalcolatriceScientifica extends Application {
                         operation = "+";
                     }
                 }
-                else if(pressed.equals("pow")){
+                else if(pressed.equals("pow") || pressed.equals("-")){
                     if (primoTermine.equals("")) {
                         secondoTermine = "";
                         operation = "";
+                        if(pressed.equals("-")){primoTermine = "-";}
                     } else if (operation.equals("x") || operation.equals("÷")) {
-                        operation = "pow";
+                        operation = pressed;
                     } else if (!operation.equals("")) {
-                        secondoTermine = "pow" + secondoTermine;
+                        secondoTermine = pressed + secondoTermine;
                         reformat();
                     } else {
-                        operation = "pow";
-                    }
-                }
-                else if (pressed.equals("-")){
-                    if (primoTermine.equals("")) {
-                        primoTermine = "-";
-                        secondoTermine = "";
-                        operation = "";
-                    } else if (operation.equals("x") || operation.equals("÷")) {
-                        operation = "-";
-                    } else if (!operation.equals("")) {
-                        secondoTermine = "-" + secondoTermine;
-                        reformat();
-                    } else {
-                        operation = "-";
+                        operation = pressed;
                     }
                 }
                 else if (pressed.equals("x")){
