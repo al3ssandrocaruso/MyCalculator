@@ -424,9 +424,7 @@ public class CalcolatriceScientifica extends Application {
         Button btn=new Button(text);
         btn.setMinSize(50,50);
         btn.setStyle("-fx-font-weight: bold;");
-        btn.setOnAction(e -> {
-            handler(text);
-        });
+        btn.setOnAction(e -> handler(text));
         return btn;
     }
 
