@@ -57,7 +57,7 @@ public class CalcolatriceScientifica extends Application {
         switch (pressed) {
             case "√","log","+","pow","-","x","÷": handleOperations(pressed); break;
 
-            case "=" : handleEqual();backFromResult = true;operation = "";secondoTermine = ""; break;
+            case "=" : handleEqual(); backFromResult = true; operation = ""; secondoTermine = ""; break;
 
             case "C" : displayZero();logPressed=false;radixPressed=false; break;
 
@@ -245,7 +245,7 @@ public class CalcolatriceScientifica extends Application {
     }
     public void handleDigits(String pressed){
         if(pressed.equals("π")){ pressed= String.valueOf(Math.PI);}
-        if (backFromResult) { primoTermine = pressed; operation = ""; secondoTermine = "";}
+        if (backFromResult) { primoTermine = pressed; operation = ""; secondoTermine = ""; backFromResult=false;}
         else if(logPressed){ secondoTermine=secondoTermine.concat(pressed); displayLog();}
         else if(radixPressed){ secondoTermine=secondoTermine.concat(pressed); displaySqrt(); return;}
         else if (primoTermine.equals("") || operation.equals("")) { primoTermine = primoTermine.concat(pressed);}
